@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace StargateAPI.Controllers
+namespace Stargate.API.Controllers
 {
     public static class ControllerBaseExtensions
     {

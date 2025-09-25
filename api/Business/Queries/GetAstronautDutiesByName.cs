@@ -1,10 +1,10 @@
 ﻿using Dapper;
 using MediatR;
-using StargateAPI.Business.Data;
-using StargateAPI.Business.Dtos;
-using StargateAPI.Controllers;
+using Stargate.API.Business.Data;
+using Stargate.API.Business.Dtos;
+using Stargate.API.Controllers;
 
-namespace StargateAPI.Business.Queries
+namespace Stargate.API.Business.Queries
 {
     public class GetAstronautDutiesByName : IRequest<GetAstronautDutiesByNameResult>
     {

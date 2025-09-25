@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace StargateAPI.Migrations
+namespace Stargate.API.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

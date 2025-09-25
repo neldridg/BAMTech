@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
-using StargateAPI.Business.Data;
-using StargateAPI.Controllers;
+using Stargate.API.Business.Data;
+using Stargate.API.Controllers;
 
-namespace StargateAPI.Business.Commands
+namespace Stargate.API.Business.Commands
 {
     public class CreatePerson : IRequest<CreatePersonResult>
     {
