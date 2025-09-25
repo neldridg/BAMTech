@@ -19,4 +19,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Business\Migrations\StargateContextModelSnapshot.cs" />
+    <Compile Remove="Business\Migrations\20240122154939_InitialCreate.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Business\Migrations\" />
+  </ItemGroup>
+
 </Project>
