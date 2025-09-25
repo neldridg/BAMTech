@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Stargate.API.Business.Data;
 using Stargate.API.Business.Dtos;
@@ -38,16 +39,23 @@ namespace Stargate.API.Business.Queries
                             CurrentRank = person.AstronautDetail.CurrentRank,
                         },
                         AstronautDuties = person.AstronautDuties.OrderByDescending(duty => duty.DutyStartDate).ToList()
-                    }).FirstOrDefaultAsync();
+                    }).FirstOrDefaultAsync(cancellationToken);
 
-            return await result;
+            return await result ?? new GetAstronautDutiesByNameResult()
+            {
+                Message = "Not Found",
+                AstronautDuties = Enumerable.Empty<AstronautDuty>().ToList(),
+                Person = null,
+                ResponseCode = (int) HttpStatusCode.NotFound,
+                Success = false
+            };
 
         }
     }
 
     public class GetAstronautDutiesByNameResult : BaseResponse
     {
-        public PersonAstronaut Person { get; set; }
+        public PersonAstronaut? Person { get; set; }
         public List<AstronautDuty> AstronautDuties { get; set; } = new List<AstronautDuty>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Net;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Stargate.API.Business.Data;
 using Stargate.API.Business.Dtos;
@@ -22,7 +23,7 @@ namespace Stargate.API.Business.Queries
         public async Task<GetPersonByNameResult> Handle(GetPersonByName request, CancellationToken cancellationToken)
         {
 
-            var result = _context.People.Where(person => person.Name == request.Name)
+            var result = await _context.People.Where(person => person.Name == request.Name)
                 .Include(person => person.AstronautDetail)
                 .Select(person => new GetPersonByNameResult
             {
@@ -35,9 +36,15 @@ namespace Stargate.API.Business.Queries
                     CurrentRank = person.AstronautDetail.CurrentRank,
                     CurrentDutyTitle = person.AstronautDetail.CurrentDutyTitle
                 }
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(cancellationToken);
 
-            return await result;
+            return result ?? new GetPersonByNameResult()
+            {
+                ResponseCode = (int) HttpStatusCode.NotFound,
+                Message = "Not Found",
+                Success = false,
+                Person = null
+            };
         }
     }
 
