@@ -29,11 +29,14 @@ namespace Stargate.API.Business.Commands
 
         public Task Process(CreateAstronautDuty request, CancellationToken cancellationToken)
         {
-            var person = _context.People.AsNoTracking().FirstOrDefault(z => z.Name == request.Name);
+            var person = _context.People
+                .AsNoTracking()
+                .Include(person => person.AstronautDuties)
+                .FirstOrDefault(person => person.Name == request.Name);
 
             if (person is null) throw new BadHttpRequestException("Bad Request");
 
-            var verifyNoPreviousDuty = _context.AstronautDuties.FirstOrDefault(z => z.DutyTitle == request.DutyTitle && z.DutyStartDate == request.DutyStartDate);
+            var verifyNoPreviousDuty = person.AstronautDuties.FirstOrDefault(z => z.DutyTitle == request.DutyTitle && z.DutyStartDate == request.DutyStartDate);
 
             if (verifyNoPreviousDuty is not null) throw new BadHttpRequestException("Bad Request");
 
