@@ -22,10 +22,7 @@ namespace Stargate.API.Controllers
         {
             try
             {
-                var result = await _mediator.Send(new GetPeople()
-                {
-
-                });
+                var result = await _mediator.Send(new GetPeople());
 
                 return this.GetResponse(result);
             }
