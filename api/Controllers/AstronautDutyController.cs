@@ -39,7 +39,7 @@ namespace Stargate.API.Controllers
             }            
         }
 
-        [HttpPost("")]
+        [HttpPost("{name}")]
         public async Task<IActionResult> CreateAstronautDuty([FromBody] CreateAstronautDuty request)
         {
                 var result = await _mediator.Send(request);

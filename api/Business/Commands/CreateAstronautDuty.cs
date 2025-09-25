@@ -1,5 +1,4 @@
-﻿using Dapper;
-using MediatR;
+﻿using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -53,13 +52,13 @@ namespace Stargate.API.Business.Commands
         public async Task<CreateAstronautDutyResult> Handle(CreateAstronautDuty request, CancellationToken cancellationToken)
         {
 
-            var query = $"SELECT * FROM [Person] WHERE \'{request.Name}\' = Name";
+            var person = await _context.People
+                .Where(person => person.Name == request.Name)
+                .Include(person => person.AstronautDetail)
+                .Include(person => person.AstronautDuties)
+                .FirstOrDefaultAsync(cancellationToken);
 
-            var person = await _context.Connection.QueryFirstOrDefaultAsync<Person>(query);
-
-            query = $"SELECT * FROM [AstronautDetail] WHERE {person.Id} = PersonId";
-
-            var astronautDetail = await _context.Connection.QueryFirstOrDefaultAsync<AstronautDetail>(query);
+            var astronautDetail = person.AstronautDetail;
 
             if (astronautDetail == null)
             {
@@ -87,9 +86,7 @@ namespace Stargate.API.Business.Commands
                 _context.AstronautDetails.Update(astronautDetail);
             }
 
-            query = $"SELECT * FROM [AstronautDuty] WHERE {person.Id} = PersonId Order By DutyStartDate Desc";
-
-            var astronautDuty = await _context.Connection.QueryFirstOrDefaultAsync<AstronautDuty>(query);
+            var astronautDuty = person.AstronautDuties.OrderByDescending(duty => duty.DutyStartDate).FirstOrDefault();
 
             if (astronautDuty != null)
             {
