@@ -21,7 +21,7 @@ namespace Stargate.API.Controllers
         {
             try
             {
-                var result = await _mediator.Send(new GetPersonByName()
+                var result = await _mediator.Send(new GetAstronautDutiesByName()
                 {
                     Name = name
                 });
@@ -39,7 +39,7 @@ namespace Stargate.API.Controllers
             }            
         }
 
-        [HttpPost("{name}")]
+        [HttpPost()]
         public async Task<IActionResult> CreateAstronautDuty([FromBody] CreateAstronautDuty request)
         {
                 var result = await _mediator.Send(request);
