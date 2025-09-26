@@ -35,8 +35,7 @@ namespace Stargate.API.Business.Commands
                 .Include(person => person.AstronautDetail)
                 .FirstOrDefault(person => person.Name == request.Name);
 
-            if (person is null || person.AstronautDetail is not null) throw new BadHttpRequestException("Bad Request");
-            
+            if (person is null) throw new BadHttpRequestException("Bad Request");
             return Task.CompletedTask;
         }
     }
@@ -57,7 +56,7 @@ namespace Stargate.API.Business.Commands
                 .Include(person => person.AstronautDetail)
                 .FirstOrDefaultAsync(cancellationToken);
             
-            if (person is null || person.AstronautDetail is not null) throw new BadHttpRequestException("Bad Request");
+            if (person is null) throw new BadHttpRequestException("Bad Request");
 
             var newAstronautDetail = new AstronautDetail
             {
@@ -67,8 +66,17 @@ namespace Stargate.API.Business.Commands
                 CurrentDutyTitle = request.CurrentDutyTitle,
                 CareerEndDate = request.CareerEndDate
             };
-            
-            await _context.AstronautDetails.AddAsync(newAstronautDetail, cancellationToken);
+
+            if (person.AstronautDetail is not null)
+            {
+                newAstronautDetail.Id = person.AstronautDetail.Id;
+                _context.AstronautDetails.Update(newAstronautDetail);
+            }
+            else
+            {
+                await _context.AstronautDetails.AddAsync(newAstronautDetail, cancellationToken);
+            }
+
             await _context.SaveChangesAsync(cancellationToken);
             
             return new CreateAstronautDetailResult()
