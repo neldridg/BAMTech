@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Stargate.API.Migrations
 {
     /// <inheritdoc />
@@ -68,6 +70,29 @@ namespace Stargate.API.Migrations
                         principalTable: "Person",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Person",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "John Doe" },
+                    { 2, "Jane Doe" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AstronautDetail",
+                columns: new[] { "Id", "CareerEndDate", "CareerStartDate", "CurrentDutyTitle", "CurrentRank", "PersonId" },
+                values: new object[] { 1, null, new DateTime(2025, 9, 26, 0, 47, 30, 768, DateTimeKind.Local).AddTicks(6100), "Commander", "1LT", 1 });
+
+            migrationBuilder.InsertData(
+                table: "AstronautDuty",
+                columns: new[] { "Id", "DutyEndDate", "DutyStartDate", "DutyTitle", "PersonId", "Rank" },
+                values: new object[,]
+                {
+                    { 1, null, new DateTime(2025, 9, 26, 0, 47, 30, 768, DateTimeKind.Local).AddTicks(6190), "Commander", 1, "2LT" },
+                    { 2, new DateTime(2030, 9, 26, 0, 47, 30, 768, DateTimeKind.Local).AddTicks(6210), new DateTime(2025, 9, 25, 0, 47, 30, 768, DateTimeKind.Local).AddTicks(6200), "Commander2", 1, "1LT" }
                 });
 
             migrationBuilder.CreateIndex(
