@@ -22,8 +22,9 @@ namespace Stargate.API.Business.Queries
         {
             var people = 
                 await _context.People
+                    .AsNoTracking()
                     .Include(person => person.AstronautDetail)
-                    .Select(person => new PersonAstronaut()
+                    .Select(person => new PersonAstronaut
                     {
                         Name = person.Name,
                         PersonId = person.Id,

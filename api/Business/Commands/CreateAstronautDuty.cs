@@ -56,6 +56,7 @@ namespace Stargate.API.Business.Commands
         {
 
             var person = await _context.People
+                .AsNoTracking()
                 .Where(person => person.Name == request.Name)
                 .Include(person => person.AstronautDetail)
                 .Include(person => person.AstronautDuties)
