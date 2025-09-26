@@ -1,0 +1,31 @@
+<form (ngSubmit)="onSubmit()" #actorForm="ngForm">
+  <div class="form-group">
+    <label for="personSearch">Name</label>
+    <input type="text" class="form-control" id="personSearch" aria-describedby="nameSearch" placeholder="John Doe" [(ngModel)]="searchName" name="search">
+    <small id="nameSearch" class="form-text text-muted">Astronaut Name To Search</small>
+  </div>
+</form>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID #</th>
+      <th scope="col">Name</th>
+      <th scope="col">Current Rank</th>
+      <th scope="col">Current Duty Title</th>
+      <th scope="col">Career Start Date</th>
+      <th scope="col">Career End Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (person of people; track $index) {
+      <tr>
+        <td>{{ person.personId }}</td>
+        <td>{{ person.name }}</td>
+        <td>{{ person.currentRank }}</td>
+        <td>{{ person.currentDutyTitle }}</td>
+        <td>{{ person.careerStartDate }}</td>
+        <td>{{ person.careerEndDate }}</td>
+      </tr>
+    }
+  </tbody>
+</table>

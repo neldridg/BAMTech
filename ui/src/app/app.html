@@ -1,0 +1,22 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" routerLink="/">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="navbar-item">
+          <a class="nav-link" routerLink="/duty">Duty Information</a>
+        </li>
+        <li class="navbar-item">
+          <a class="nav-link" routerLink="/ceduty">Update Duty</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<div class="container">
+  <router-outlet />
+</div>
+<footer></footer>
